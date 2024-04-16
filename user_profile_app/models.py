@@ -10,5 +10,5 @@ class UserProfile(models.Model):
     city = models.CharField(max_length=255)
 
 
-def __str__(self):
-    return f"User Profile: {self.account} Address {self.street_name} {self.street_number} {self.zip_code} {self.city}"
+    def __str__(self):
+        return f"User Profile: {self.account}, Address: {self.street_number} {self.street_name}, {self.city}, {self.zip_code}"

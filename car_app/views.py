@@ -9,7 +9,7 @@ from car_model_app.models import CarModel
 # We will utilize serializer to turn our QuerySets into
 # binary string
 from django.core.serializers import serialize
-from .serliazers import CarSerializer
+from .serializers import CarSerializer
 
 # Json.loads will turn binary strings into JSON data
 import json
@@ -29,6 +29,16 @@ class SelectedCar(APIView):
 
         if type(id) == int:
             return Car.objects.get(id = id)
-        e
+        else:
+            return Car.objects.get(registration_number = id)
+        
+    def get(self, request, id):
+
+        car = self.get_car(id)
+        car_serialized = CarSerializer(car)
+        return Response(car_serialized)
+
+
+
         
         

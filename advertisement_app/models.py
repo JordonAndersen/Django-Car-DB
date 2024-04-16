@@ -8,9 +8,9 @@ from car_app.models import Car
 class Advertisement(models.Model):
     advertisement_date = models.DateTimeField(auto_now_add=True)
     seller_account_id = models.ForeignKey(
-        'account_id', on_delete = models.SET_NULL, null = True, related_name = '+')
+        AppUser, on_delete = models.SET_NULL, null = True, related_name = '+')
     car_id = models.ForeignKey(
-        'car_id', on_delete = models.SET_NULL, null = True, related_name = '+')
+        Car, on_delete = models.SET_NULL, null = True, related_name = '+')
 
     def __str__(self):
         return f"advertisement date: {self.advertisement_date}, Seller Account ID: {self.seller_account_id}, Car ID: {self.car_id}"
