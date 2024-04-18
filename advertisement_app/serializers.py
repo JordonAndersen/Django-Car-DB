@@ -7,8 +7,8 @@ from app_user_app.serializers import AppUserSerializer
 class AdvertisementSerializer(serializers.ModelSerializer):
     
 
-    car_id = CarSerializer(many=True)
-    seller_account_id = AppUserSerializer(many=True)
+    car_id = CarSerializer(many=False)
+    seller_account_id = AppUserSerializer(many=False)
 
     class Meta:
 

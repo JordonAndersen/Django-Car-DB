@@ -1,39 +1,37 @@
-# pokemon_app/views.py
-# We will import the following to read and return JSON data more efficiently
-from rest_framework.views import APIView, Response
-
-# We want to bring in our model
+from rest_framework.views import APIView
+from rest_framework.response import Response
 from .models import AppUser
-
-# We will utilize serializer to turn our QuerySets into
-# binary string
-from django.core.serializers import serialize
 from .serializers import AppUserSerializer
 
-# Json.loads will turn binary strings into JSON data
-import json
 class AllAppUsers(APIView):
     
     def get(self, request):
-        app_users = AppUser.objects.order_by('first_name')
-        app_users_serialized = serializer = AppUserSerializer(app_users)
+        app_users = AppUser.objects.order_by('pk')
+        serializer = AppUserSerializer(app_users, many=True)  
         return Response(serializer.data)
     
+    def post(self, request, response):
+        new_app_user = AppUser(**request.data)
+        new_app_user.save()
+        new_app_user.full_clean()
+        new_app_user_serialized = AppUserSerializer(new_app_user_serialized, many=False)
 
-class SelectAppUser(APIView):
+class SelectAppUsers(APIView):
 
     def get_app_user(self, id):
-
-        if type(id) == int:
-            return AppUser.objects.get(id = id)
+        if isinstance(id, int):
+            return AppUser.objects.get(id=id)
         else:
-            return AppUser.objects.get(first_name = id)
+            return AppUser.objects.get(first_name=id.title())
 
     def get(self, request, id):
-
         app_user = self.get_app_user(id)
-        app_user_serialized = AppUserSerializer(app_user, many)
-        return Response(app_user_serialized)
-        
+        app_user_serialized = AppUserSerializer(app_user, many=False)
+        return Response(app_user_serialized.data)
+    
+    def delete(self, request, id):
+        app_user = self.get_app_user(id)
+        name = app_user.name
+        app_user.delete()
 
-
+        return Response(f'{name} was deleted')

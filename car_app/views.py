@@ -19,7 +19,7 @@ class AllCars(APIView):
 
     def get(self, request):
         cars = Car.objects.order_by('pk')
-        cars_serialized = CarSerializer(cars)
+        cars_serialized = CarSerializer(cars, many=True)
         return Response(cars_serialized.data)
 
 
@@ -35,8 +35,14 @@ class SelectedCar(APIView):
     def get(self, request, id):
 
         car = self.get_car(id)
-        car_serialized = CarSerializer(car)
-        return Response(car_serialized)
+        car_serialized = CarSerializer(car, many=False)
+        return Response(car_serialized.data)
+
+    def put(self, request, id):
+
+        car = self.get_car(id)
+
+        
 
 
 

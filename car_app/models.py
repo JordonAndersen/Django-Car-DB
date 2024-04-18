@@ -17,5 +17,5 @@ class Car(models.Model):
 
 
     def __str__(self):
-        return f'Registration_number: {self.registration_number}, Number of Owners:{self.number_of_owners}, Mileage: {self.mileage}'
+        return f'CarModel ID: {self.car_model_id}, Registration_number: {self.registration_number}, Number of Owners:{self.number_of_owners}, Mileage: {self.mileage}'
 

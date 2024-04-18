@@ -1,14 +1,12 @@
-# move_app/serializers.py
 from rest_framework import serializers
 from .models import Car
 from car_model_app.serializers import CarModelSerializer
 
 class CarSerializer(serializers.ModelSerializer):
-    
-    car_model = CarModelSerializer(many=True)
 
+    car_model_id = CarModelSerializer(many=False)
     class Meta:
-
         model = Car
-        fields = ('id', 'car_model' 'number_of_owners', 'manufacture_year', 'number_of_doors', 'mileage')
-    
+        fields = ('number_of_owners', 'car_model_id', 'registration_number', 'manufacture_year', 'number_of_doors', 'mileage')
+
+
