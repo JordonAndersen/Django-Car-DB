@@ -14,8 +14,9 @@ class AllUserProfiles(APIView):
         serializer = UserProfileSerializer(user_profiles, many=True)  
         return Response(serializer.data)
     
-    def post(self, request, response):
-        serializer = UserProfileSerializer(data = request.data)
+    def post(self, request):
+        serializer = UserProfileSerializer(data=request.data)
+        print('here is', serializer)
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)
@@ -27,29 +28,27 @@ class SelectUserProfiles(APIView):
 
     def get_user_profile(self, id):
         if isinstance(id, int):
-            return UserProfile.objects.get(id=id)
+            return UserProfile.objects.get(user_id=id)
         else:
             return UserProfile.objects.get(first_name=id)
 
     def get(self, request, id):
         user_profile = self.get_user_profile(id)
-        json_user_profile = serialize('json', [user_profile])
-        serialized_user_profile = json.loads(json_user_profile)
+        serialized_user_profile = UserProfileSerializer(user_profile, many=False)
         return Response(serialized_user_profile.data)
     
     def put(self, request, id):
         user_profile = self.get_user_profile(id)
+        
         if 'street_name' in request.data:
-            user_profile.street_name = request.data['street_name']
-        if 'street_number' in request.data:
-            user_profile.street_number = request.data.street_number
-        if 'zip_code' in request.data:
-            user_profile.zip_code = request.data.zip_code
-        if 'email' in request.data:
-            user_profile.email = request.data.email
-        if 'password' in request.data:
-            user_profile.password = request.data.password
+            user_profile.change_street(request.data['street_name'])
 
+        user_profile.save()
+
+        serialized_user_profile = UserProfileSerializer(user_profile, many=False)
+
+
+        return Response(serialized_user_profile.data)
 
     def delete(self, request, id):
         user_profile = self.get_user_profile(id)

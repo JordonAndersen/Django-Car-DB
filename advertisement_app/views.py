@@ -20,7 +20,7 @@ class Advertisements(APIView):
         serializer = AdvertisementSerializer(Advert, many=True)
         return Response(serializer.data)
     
-    def post (self, request, response):
+    def post (self, request):
         serializer = AdvertisementSerializer(data = request.data)
         if serializer.is_valid():
             serializer.save()

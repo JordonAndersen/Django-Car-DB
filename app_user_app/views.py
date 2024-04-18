@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import AppUser
 from .serializers import AppUserSerializer
+from rest_framework import status
 
 class AllAppUsers(APIView):
     
@@ -10,17 +11,19 @@ class AllAppUsers(APIView):
         serializer = AppUserSerializer(app_users, many=True)  
         return Response(serializer.data)
     
-    def post(self, request, response):
-        new_app_user = AppUser(**request.data)
-        new_app_user.save()
-        new_app_user.full_clean()
-        new_app_user_serialized = AppUserSerializer(new_app_user_serialized, many=False)
+    def post(self, request):
+        serialized_app_user = AppUserSerializer(data = request.data )
+        if serialized_app_user.is_valid():
+            serialized_app_user.save()
+            print(serialized_app_user.data)
+            return Response(serialized_app_user.data, status=status.HTTP_201_CREATED)
+        return Response(serialized_app_user.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SelectAppUsers(APIView):
 
     def get_app_user(self, id):
         if isinstance(id, int):
-            return AppUser.objects.get(id=id)
+            return AppUser.objects.get(account_id=id)
         else:
             return AppUser.objects.get(first_name=id.title())
 

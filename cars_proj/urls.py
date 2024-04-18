@@ -23,5 +23,4 @@ urlpatterns = [
     path('api/v1/advertisements/', include('advertisement_app.urls')),
     path('api/v1/appusers/', include('app_user_app.urls')),
     path('api/v1/userprofiles/', include('user_profile_app.urls'))
-
 ]

@@ -16,8 +16,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
         account_data = validated_data.pop('account')
         new_user_profile = UserProfile.objects.create(**validated_data)
+        print('account_data: ', account_data)
 
+        
         account = AppUser.objects.create(**account_data)
+    
+
         new_user_profile.add(account)
 
         return new_user_profile

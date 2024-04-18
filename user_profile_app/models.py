@@ -12,3 +12,8 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return f"User Profile: {self.account}, Address: {self.street_number} {self.street_name}, {self.city}, {self.zip_code}"
+    
+    def change_street(self, street):
+
+        self.street_name = street
+    
