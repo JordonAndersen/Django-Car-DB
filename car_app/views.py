@@ -1,6 +1,7 @@
 # pokemon_app/views.py
 # We will import the following to read and return JSON data more efficiently
 from rest_framework.views import APIView, Response
+from rest_framework import status
 
 # We want to bring in our model
 from .models import Car
@@ -21,6 +22,15 @@ class AllCars(APIView):
         cars = Car.objects.order_by('pk')
         cars_serialized = CarSerializer(cars, many=True)
         return Response(cars_serialized.data)
+    
+    def post(self, request):
+        serializer = CarSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 class SelectedCar(APIView):
@@ -41,6 +51,14 @@ class SelectedCar(APIView):
     def put(self, request, id):
 
         car = self.get_car(id)
+
+    def delete(self, request, id):
+        car = self.get_car(id)
+        serialized_car = CarSerializer(car, many=False)
+
+        car.delete()
+        return Response(f"{car} has been deleted")
+
 
         
 

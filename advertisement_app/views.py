@@ -37,22 +37,20 @@ class SelectedAdvert(APIView):
     
     def get(self, request, id):
         advertisement = self.get_advert(id)
-        json_advertisement = serialize('json', [advertisement])
-        serialized_advertisement = json.loads(json_advertisement)
-        return Response(serialized_advertisement)
-    
-    
+        serialized_advertisement = AdvertisementSerializer(advertisement, many=False)
+        return Response(serialized_advertisement.data)
+  
     def delete(self, request, id):
         advertisement = self.get_advert(id)
 
         serialized_advertisement = AdvertisementSerializer(advertisement, many=False)
 
-        make = serialized_advertisement.data[0]['car_id']['car_model_id']['make']
-        model = serialized_advertisement.data[0]['car_id']['car_model_id']['model']
-        registration_number = serialized_advertisement.data[0]['car_id']['car_model_id']['registration_number']
+        make = serialized_advertisement['car_id']['car_model_id']['make'].value
+        model = serialized_advertisement['car_id']['car_model_id']['model'].value
+        registration_number = serialized_advertisement['car_id']['registration_number'].value
 
-        first_name = serialized_advertisement.data[0]['seller_account_id']['first_name']
-        last_name = serialized_advertisement.data[0]['seller_account_id']['last_name']
+        first_name = serialized_advertisement['seller_account_id']['first_name'].value
+        last_name = serialized_advertisement['seller_account_id']['last_name'].value
 
 
         advertisement.delete()

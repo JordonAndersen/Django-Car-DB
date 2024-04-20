@@ -9,19 +9,15 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ('account','street_name', 'street_number', 'zip_code', 'city')
+        fields = ('street_name', 'street_number', 'zip_code', 'city','account')
 
 
     def create(self, validated_data):
 
-        account_data = validated_data.pop('account')
-        new_user_profile = UserProfile.objects.create(**validated_data)
-        print('account_data: ', account_data)
-
-        
+        account_data = validated_data.get('account')
         account = AppUser.objects.create(**account_data)
     
-
-        new_user_profile.add(account)
+        validated_data["account"] = account
+        new_user_profile = UserProfile.objects.create(**validated_data)
 
         return new_user_profile
