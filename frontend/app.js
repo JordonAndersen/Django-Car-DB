@@ -13,7 +13,7 @@ window.onload = (event) => {
     });
 
     // Fetch user profiles and populate dropdown
-    fetch('http://127.0.0.1:8000/api/v1/userprofiles/')
+    fetch('http://3.15.174.171:8000/api/v1/userprofiles/')
         .then(response => response.json())
         .then(data => {
             // Populate dropdown with user names
@@ -34,7 +34,7 @@ window.onload = (event) => {
 // Function to fetch profile information and advertisements for the selected user
 function fetchUserProfile(userName) {
     // Make a fetch request to get the profile info for the selected user
-    fetch('http://127.0.0.1:8000/api/v1/userprofiles/')
+    fetch('http://3.15.174.171:8000/api/v1/userprofiles/')
         .then(response => response.json())
         .then(userProfiles => {
             // Find the user profile data for the selected user
@@ -46,7 +46,7 @@ function fetchUserProfile(userName) {
                 
                 
                 // Fetch advertisements for the selected user
-                fetch('http://127.0.0.1:8000/api/v1/advertisements/')
+                fetch('http://3.15.174.171:8000/api/v1/advertisements/')
                     .then(response => response.json())
                     .then(advertisements => {
                         // Filter advertisements for the selected user
@@ -107,7 +107,7 @@ function fetchUserProfile(userName) {
       
     }
         // Fetch advertisemts profiles and populate dropdown
-        fetch('http://127.0.0.1:8000/api/v1/advertisements/')
+        fetch('http://3.15.174.171:8000/api/v1/advertisements/')
         .then(response => response.json())
         .then(data => {
             // Populate dropdown with user names
@@ -119,7 +119,7 @@ function fetchUserProfile(userName) {
         });
 
         // Fetch user profiles and populate dropdown
-        fetch('http://127.0.0.1:8000/api/v1/cars/')
+        fetch('http://3.15.174.171:8000/api/v1/cars/')
         .then(response => response.json())
         .then(data => {
             // Populate dropdown with user names
